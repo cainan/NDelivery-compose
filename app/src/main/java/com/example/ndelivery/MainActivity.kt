@@ -5,8 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +19,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -47,17 +51,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    ProductSection()
                 }
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun ProductItemPreview() {
-    ProductItem()
 }
 
 @Composable
@@ -128,3 +126,41 @@ fun ProductItem() {
     }
 }
 
+@Composable
+fun ProductSection() {
+
+    Column() {
+        Text(
+            text = "Promoções", Modifier.padding(
+                start = 16.dp,
+                top = 16.dp,
+                end = 16.dp
+            ), fontSize = 20.sp, fontWeight = FontWeight(400)
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(1f)
+                .horizontalScroll(rememberScrollState())
+                .padding(vertical = 8.dp)
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            ProductItem()
+            ProductItem()
+            ProductItem()
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProductSectionPreview() {
+    ProductSection()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProductItemPreview() {
+    ProductItem()
+}
