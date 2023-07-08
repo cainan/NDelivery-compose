@@ -39,7 +39,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ndelivery.model.Product
 import com.example.ndelivery.ui.theme.NDeliveryTheme
+import java.math.BigDecimal
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +61,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ProductItem() {
+fun ProductItem(product: Product) {
     Surface(
         shape = RoundedCornerShape(15.dp),
     ) {
@@ -92,7 +94,7 @@ fun ProductItem() {
                         .offset(y = imageSize / 2)
                         .align(Alignment.BottomCenter)
                         .clip(shape = CircleShape),
-                    painter = painterResource(R.drawable.ic_launcher_background),
+                    painter = painterResource(product.image),
                     contentDescription = null
                 )
             }
@@ -110,14 +112,14 @@ fun ProductItem() {
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight(700),
-                    text = LoremIpsum(50).values.first(),
+                    text = product.name,
                     fontSize = 18.sp
                 )
 
                 Text(
                     modifier = Modifier
                         .padding(top = 8.dp),
-                    text = "R$ 14,99",
+                    text = product.price.toPlainString(),
                     fontSize = 14.sp,
                     fontWeight = FontWeight(400)
                 )
@@ -146,9 +148,27 @@ fun ProductSection() {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ProductItem()
-            ProductItem()
-            ProductItem()
+            ProductItem(
+                Product(
+                    name = LoremIpsum(50).values.first(),
+                    price = BigDecimal("14.99"),
+                    image = R.drawable.ic_launcher_background
+                )
+            )
+            ProductItem(
+                Product(
+                    name = LoremIpsum(50).values.first(),
+                    price = BigDecimal("14.99"),
+                    image = R.drawable.ic_launcher_background
+                )
+            )
+            ProductItem(
+                Product(
+                    name = LoremIpsum(50).values.first(),
+                    price = BigDecimal("14.99"),
+                    image = R.drawable.ic_launcher_background
+                )
+            )
         }
     }
 }
@@ -162,5 +182,11 @@ private fun ProductSectionPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun ProductItemPreview() {
-    ProductItem()
+    ProductItem(
+        Product(
+            name = LoremIpsum(50).values.first(),
+            price = BigDecimal("14.99"),
+            image = R.drawable.ic_launcher_background
+        )
+    )
 }
