@@ -14,16 +14,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.ndelivery.R
 import com.example.ndelivery.model.Product
-import java.math.BigDecimal
+import com.example.ndelivery.sampledata.sampleProduct
 
 @Composable
-fun ProductSection() {
+fun ProductSection(title: String, products: List<Product>) {
 
     Column() {
         Text(
-            text = "Promoções", Modifier.padding(
+            text = title, Modifier.padding(
                 start = 16.dp
             ), fontSize = 20.sp, fontWeight = FontWeight(400)
         )
@@ -36,27 +35,9 @@ fun ProductSection() {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ProductItem(
-                Product(
-                    name = "Burger",
-                    price = BigDecimal("14.99"),
-                    image = R.drawable.burger
-                )
-            )
-            ProductItem(
-                Product(
-                    name = "Pizza",
-                    price = BigDecimal("34.99"),
-                    image = R.drawable.pizza
-                )
-            )
-            ProductItem(
-                Product(
-                    name = "Batata Frita",
-                    price = BigDecimal("10.99"),
-                    image = R.drawable.fries
-                )
-            )
+            for (p in products) {
+                ProductItem(product = p)
+            }
         }
     }
 }
@@ -64,5 +45,5 @@ fun ProductSection() {
 @Preview(showBackground = true)
 @Composable
 private fun ProductSectionPreview() {
-    ProductSection()
+    ProductSection("Preview", sampleProduct)
 }
