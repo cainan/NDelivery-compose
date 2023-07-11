@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ndelivery.model.Product
-import com.example.ndelivery.sampledata.sampleProduct
+import com.example.ndelivery.sampledata.sampleProducts
 
 @Composable
 fun ProductSection(title: String, products: List<Product>) {
@@ -45,5 +45,5 @@ fun ProductSection(title: String, products: List<Product>) {
 @Preview(showBackground = true)
 @Composable
 private fun ProductSectionPreview() {
-    ProductSection("Preview", sampleProduct)
+    ProductSection("Preview", sampleProducts)
 }
