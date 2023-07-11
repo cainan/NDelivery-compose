@@ -6,18 +6,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.ndelivery.App
-import com.example.ndelivery.sampledata.sampleCandies
-import com.example.ndelivery.sampledata.sampleDrinks
-import com.example.ndelivery.sampledata.sampleProducts
+import com.example.ndelivery.model.Product
+import com.example.ndelivery.sampledata.sampleSections
 import com.example.ndelivery.ui.components.ProductSection
+import com.example.ndelivery.ui.theme.NDeliveryTheme
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    sections: Map<String, List<Product>>
+) {
     Column(
         modifier = Modifier
             .fillMaxSize(1f)
@@ -27,14 +29,23 @@ fun HomeScreen() {
             ),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        ProductSection(title = "Promoções", products = sampleProducts)
-        ProductSection(title = "Doces", products = sampleCandies)
-        ProductSection(title = "Bebidas", products = sampleDrinks)
+        for (section in sections) {
+            val title = section.key
+            val products = section.value
+            ProductSection(
+                title = title,
+                products = products
+            )
+        }
     }
 }
 
 @Preview(showSystemUi = true)
 @Composable
 private fun HomeScreenPreview() {
-    App()
+    NDeliveryTheme() {
+        Surface {
+            HomeScreen(sampleSections)
+        }
+    }
 }
