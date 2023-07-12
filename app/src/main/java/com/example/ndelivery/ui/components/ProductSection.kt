@@ -1,12 +1,12 @@
 package com.example.ndelivery.ui.components
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,16 +29,15 @@ fun ProductSection(title: String, products: List<Product>) {
             ), fontSize = 20.sp, fontWeight = FontWeight(400)
         )
 
-        Row(
+        LazyRow(
             modifier = Modifier
-                .fillMaxWidth(1f)
-                .horizontalScroll(rememberScrollState())
-                .padding(vertical = 8.dp)
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(16.dp)
         ) {
-            for (p in products) {
-                ProductItem(product = p)
+            items(products) {
+                ProductItem(it)
             }
         }
     }
