@@ -37,8 +37,12 @@ import com.example.ndelivery.ui.theme.NDeliveryTheme
 import java.math.BigDecimal
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(
+    product: Product,
+    modifier: Modifier = Modifier,
+) {
     Surface(
+        modifier,
         shape = RoundedCornerShape(15.dp),
     ) {
         Column(
