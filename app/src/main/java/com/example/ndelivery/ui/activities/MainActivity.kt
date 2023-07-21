@@ -1,4 +1,4 @@
-package com.example.ndelivery
+package com.example.ndelivery.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

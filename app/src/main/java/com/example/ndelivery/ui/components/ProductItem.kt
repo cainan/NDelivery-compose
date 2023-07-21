@@ -44,6 +44,7 @@ fun ProductItem(
     Surface(
         modifier,
         shape = RoundedCornerShape(15.dp),
+        shadowElevation = 4.dp,
     ) {
         Column(
             Modifier
@@ -89,8 +90,6 @@ fun ProductItem(
             ) {
 
                 Text(
-                    modifier = Modifier
-                        .height(48.dp),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight(700),
