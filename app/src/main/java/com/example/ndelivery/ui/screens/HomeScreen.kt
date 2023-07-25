@@ -28,6 +28,7 @@ import com.example.ndelivery.ui.theme.NDeliveryTheme
 
 class HomeScreenUiState(searchText: String = "") {
     var text by mutableStateOf(searchText)
+        private set
 
     val searchedProducts
         get() =
@@ -44,16 +45,19 @@ class HomeScreenUiState(searchText: String = "") {
     fun isShowSection(): Boolean {
         return text.isBlank()
     }
+
+    val onSearchChange: (String) -> Unit = {
+        text = it
+    }
 }
 
 @Composable
 fun HomeScreen(
     sections: Map<String, List<Product>>,
-    searchText: String = ""
+    state: HomeScreenUiState = HomeScreenUiState(),
 ) {
     Column()
     {
-        val state = remember { HomeScreenUiState(searchText) }
         val text = state.text
         val isShowSections = state.isShowSection()
         val searchedProducts = remember(text) {
@@ -61,9 +65,7 @@ fun HomeScreen(
         }
 
         SearchTextField(
-            searchText = text, onSearchChange = {
-                state.text = it
-            }, modifier = Modifier
+            searchText = text, onSearchChange = state.onSearchChange, modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp)
         )
@@ -113,7 +115,7 @@ private fun HomeScreenPreview() {
 private fun HomeScreenWithSearchPreview() {
     NDeliveryTheme() {
         Surface {
-            HomeScreen(sampleSections, searchText = "Lorem")
+            HomeScreen(sampleSections, HomeScreenUiState(searchText = "Lorem"))
         }
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ndelivery.dao.ProductDao
@@ -23,6 +24,7 @@ import com.example.ndelivery.sampledata.sampleCandies
 import com.example.ndelivery.sampledata.sampleDrinks
 import com.example.ndelivery.sampledata.sampleSections
 import com.example.ndelivery.ui.screens.HomeScreen
+import com.example.ndelivery.ui.screens.HomeScreenUiState
 import com.example.ndelivery.ui.theme.NDeliveryTheme
 
 class MainActivity : ComponentActivity() {
@@ -43,7 +45,11 @@ class MainActivity : ComponentActivity() {
                         "Doces" to sampleCandies,
                         "Bebidas" to sampleDrinks
                     )
-                    HomeScreen(sections)
+
+                    val state = remember {
+                        HomeScreenUiState()
+                    }
+                    HomeScreen(sections, state)
                 }
             )
         }
