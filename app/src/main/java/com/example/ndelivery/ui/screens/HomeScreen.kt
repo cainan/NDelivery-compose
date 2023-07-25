@@ -26,23 +26,11 @@ import com.example.ndelivery.ui.components.SearchTextField
 import com.example.ndelivery.ui.theme.NDeliveryTheme
 
 
-@Composable
-fun HomeScreen(
-    sections: Map<String, List<Product>>,
-    searchText: String = ""
-) {
-    Column()
-    {
-        var text by remember { mutableStateOf(searchText) }
-        SearchTextField(
-            searchText = text, onSearchChange = {
-                text = it
-            }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp)
-        )
+class HomeScreenUiState(searchText: String = "") {
+    var text by mutableStateOf(searchText)
 
-        val searchedProducts = remember(text) {
+    val searchedProducts
+        get() =
             if (text.isNotBlank()) {
                 sampleProducts.filter { product ->
                     product.name.contains(text, true) ||
@@ -52,7 +40,33 @@ fun HomeScreen(
             } else {
                 emptyList()
             }
+
+    fun isShowSection(): Boolean {
+        return text.isBlank()
+    }
+}
+
+@Composable
+fun HomeScreen(
+    sections: Map<String, List<Product>>,
+    searchText: String = ""
+) {
+    Column()
+    {
+        val state = remember { HomeScreenUiState(searchText) }
+        val text = state.text
+        val isShowSections = state.isShowSection()
+        val searchedProducts = remember(text) {
+            state.searchedProducts
         }
+
+        SearchTextField(
+            searchText = text, onSearchChange = {
+                state.text = it
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+        )
 
         LazyColumn(
             modifier = Modifier
@@ -61,7 +75,7 @@ fun HomeScreen(
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
 
-            if (text.isBlank()) {
+            if (isShowSections) {
                 for (section in sections) {
                     val title = section.key
                     val products = section.value
