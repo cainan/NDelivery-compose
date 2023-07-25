@@ -37,12 +37,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.ndelivery.R
+import com.example.ndelivery.dao.ProductDao
 import com.example.ndelivery.model.Product
 import com.example.ndelivery.ui.theme.NDeliveryTheme
 import java.math.BigDecimal
 import java.text.DecimalFormat
 
 class ProductFormActivity : ComponentActivity() {
+
+    private val dao = ProductDao()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -52,7 +55,12 @@ class ProductFormActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ProductFormScreen()
+                    ProductFormScreen(
+                        onSaveClick = { product ->
+                            dao.save(product)
+                            finish()
+                        },
+                    )
                 }
             }
         }
@@ -62,7 +70,7 @@ class ProductFormActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductFormScreen() {
+fun ProductFormScreen(onSaveClick: (Product) -> Unit = {}) {
 
     Column(
         modifier = Modifier
@@ -184,6 +192,8 @@ fun ProductFormScreen() {
                     description = description
                 )
                 Log.i("ProductFormScreen", "ProductFormScreen: Product -> $product")
+
+                onSaveClick(product)
             },
         ) {
             Text("Salvar")
