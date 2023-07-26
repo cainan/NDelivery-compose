@@ -10,10 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,31 +24,15 @@ import com.example.ndelivery.ui.theme.NDeliveryTheme
 
 class HomeScreenUiState(
     val sections: Map<String, List<Product>> = emptyMap(),
-    private val products : List<Product> = emptyList(),
-    searchText: String = ""
+    val searchText: String = "",
+    val onSearchChange: (String) -> Unit = {},
+    val searchedProducts: List<Product> = emptyList()
 ) {
-    var text by mutableStateOf(searchText)
-        private set
-
-    val searchedProducts
-        get() =
-            if (text.isNotBlank()) {
-                products.filter { product ->
-                    product.name.contains(text, true) ||
-                            product.description?.contains(text, true) ?: false
-
-                }
-            } else {
-                emptyList()
-            }
 
     fun isShowSection(): Boolean {
-        return text.isBlank()
+        return searchText.isBlank()
     }
 
-    val onSearchChange: (String) -> Unit = {
-        text = it
-    }
 }
 
 @Composable
@@ -61,11 +41,8 @@ fun HomeScreen(
 ) {
     Column()
     {
-        val text = state.text
+        val text = state.searchText
         val isShowSections = state.isShowSection()
-        val searchedProducts = remember(text) {
-            state.searchedProducts
-        }
 
         SearchTextField(
             searchText = text, onSearchChange = state.onSearchChange, modifier = Modifier
@@ -92,7 +69,7 @@ fun HomeScreen(
                     }
                 }
             } else {
-                items(searchedProducts) {
+                items(state.searchedProducts) {
                     CardProductItem(
                         product = it,
                         Modifier.padding(horizontal = 16.dp),
@@ -118,7 +95,7 @@ private fun HomeScreenPreview() {
 private fun HomeScreenWithSearchPreview() {
     NDeliveryTheme() {
         Surface {
-            HomeScreen(HomeScreenUiState(products = sampleProducts, searchText = "Lorem"))
+            HomeScreen(HomeScreenUiState(searchedProducts = sampleProducts, searchText = "Lorem"))
         }
     }
 }

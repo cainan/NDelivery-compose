@@ -16,7 +16,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ndelivery.dao.ProductDao
@@ -46,8 +49,28 @@ class MainActivity : ComponentActivity() {
                         "Bebidas" to sampleDrinks
                     )
 
-                    val state = remember(products) {
-                        HomeScreenUiState(sections = sections, products = products)
+                    var text by remember { mutableStateOf("") }
+
+                    val searchedProducts = remember(text, products) {
+                        if (text.isNotBlank()) {
+                            products.filter { product ->
+                                product.name.contains(text, true) ||
+                                        product.description?.contains(text, true) ?: false
+
+                            }
+                        } else {
+                            emptyList()
+                        }
+                    }
+
+                    val state = remember(products, text) {
+                        HomeScreenUiState(
+                            sections = sections,
+                            searchText = text,
+                            searchedProducts = searchedProducts,
+                            onSearchChange = {
+                                text = it
+                            })
                     }
                     HomeScreen(state)
                 }
