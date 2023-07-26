@@ -10,10 +10,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ndelivery.model.Product
+import com.example.ndelivery.sampledata.sampleCandies
+import com.example.ndelivery.sampledata.sampleDrinks
 import com.example.ndelivery.sampledata.sampleProducts
 import com.example.ndelivery.sampledata.sampleSections
 import com.example.ndelivery.ui.components.CardProductItem
@@ -33,6 +39,42 @@ class HomeScreenUiState(
         return searchText.isBlank()
     }
 
+}
+
+@Composable
+fun HomeScreen(products: List<Product>) {
+
+    val sections = mapOf(
+        "Todos os Produtos" to products,
+        "Doces" to sampleCandies,
+        "Bebidas" to sampleDrinks
+    )
+
+    var text by remember { mutableStateOf("") }
+
+    val searchedProducts = remember(text, products) {
+        if (text.isNotBlank()) {
+            products.filter { product ->
+                product.name.contains(text, true) ||
+                        product.description?.contains(text, true) ?: false
+
+            }
+        } else {
+            emptyList()
+        }
+    }
+
+    val state = remember(products, text) {
+        HomeScreenUiState(
+            sections = sections,
+            searchText = text,
+            searchedProducts = searchedProducts,
+            onSearchChange = {
+                text = it
+            })
+    }
+
+    HomeScreen(state)
 }
 
 @Composable

@@ -43,36 +43,7 @@ class MainActivity : ComponentActivity() {
                 },
                 content = {
                     val products = dao.products()
-                    val sections = mapOf(
-                        "Todos os Produtos" to products,
-                        "Doces" to sampleCandies,
-                        "Bebidas" to sampleDrinks
-                    )
-
-                    var text by remember { mutableStateOf("") }
-
-                    val searchedProducts = remember(text, products) {
-                        if (text.isNotBlank()) {
-                            products.filter { product ->
-                                product.name.contains(text, true) ||
-                                        product.description?.contains(text, true) ?: false
-
-                            }
-                        } else {
-                            emptyList()
-                        }
-                    }
-
-                    val state = remember(products, text) {
-                        HomeScreenUiState(
-                            sections = sections,
-                            searchText = text,
-                            searchedProducts = searchedProducts,
-                            onSearchChange = {
-                                text = it
-                            })
-                    }
-                    HomeScreen(state)
+                    HomeScreen(products)
                 }
             )
         }

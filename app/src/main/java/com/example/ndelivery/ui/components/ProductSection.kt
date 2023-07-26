@@ -38,7 +38,7 @@ fun ProductSection(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(start = 16.dp)
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp)
         ) {
             items(products) {
                 ProductItem(it)
