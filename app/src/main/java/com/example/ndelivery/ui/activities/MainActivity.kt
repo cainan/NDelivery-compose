@@ -39,17 +39,17 @@ class MainActivity : ComponentActivity() {
                     startActivity(Intent(this, ProductFormActivity::class.java))
                 },
                 content = {
-                    dao.products()
+                    val products = dao.products()
                     val sections = mapOf(
-                        "Todos os Produtos" to dao.products(),
+                        "Todos os Produtos" to products,
                         "Doces" to sampleCandies,
                         "Bebidas" to sampleDrinks
                     )
 
-                    val state = remember {
-                        HomeScreenUiState()
+                    val state = remember(products) {
+                        HomeScreenUiState(sections = sections, products = products)
                     }
-                    HomeScreen(sections, state)
+                    HomeScreen(state)
                 }
             )
         }
@@ -85,7 +85,7 @@ fun App(onFabClick: () -> Unit = {}, content: @Composable () -> Unit = {}) {
 fun HomeScreenPreview() {
     App(
         content = {
-            HomeScreen(sampleSections)
+            HomeScreen(HomeScreenUiState(sampleSections))
         },
     )
 }

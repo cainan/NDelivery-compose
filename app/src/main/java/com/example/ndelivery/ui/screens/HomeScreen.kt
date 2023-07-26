@@ -26,14 +26,18 @@ import com.example.ndelivery.ui.components.SearchTextField
 import com.example.ndelivery.ui.theme.NDeliveryTheme
 
 
-class HomeScreenUiState(searchText: String = "") {
+class HomeScreenUiState(
+    val sections: Map<String, List<Product>> = emptyMap(),
+    private val products : List<Product> = emptyList(),
+    searchText: String = ""
+) {
     var text by mutableStateOf(searchText)
         private set
 
     val searchedProducts
         get() =
             if (text.isNotBlank()) {
-                sampleProducts.filter { product ->
+                products.filter { product ->
                     product.name.contains(text, true) ||
                             product.description?.contains(text, true) ?: false
 
@@ -53,7 +57,6 @@ class HomeScreenUiState(searchText: String = "") {
 
 @Composable
 fun HomeScreen(
-    sections: Map<String, List<Product>>,
     state: HomeScreenUiState = HomeScreenUiState(),
 ) {
     Column()
@@ -78,7 +81,7 @@ fun HomeScreen(
         ) {
 
             if (isShowSections) {
-                for (section in sections) {
+                for (section in state.sections) {
                     val title = section.key
                     val products = section.value
                     item {
@@ -105,7 +108,7 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     NDeliveryTheme() {
         Surface {
-            HomeScreen(sampleSections)
+            HomeScreen(HomeScreenUiState(sampleSections))
         }
     }
 }
@@ -115,7 +118,7 @@ private fun HomeScreenPreview() {
 private fun HomeScreenWithSearchPreview() {
     NDeliveryTheme() {
         Surface {
-            HomeScreen(sampleSections, HomeScreenUiState(searchText = "Lorem"))
+            HomeScreen(HomeScreenUiState(products = sampleProducts, searchText = "Lorem"))
         }
     }
 }
