@@ -1,5 +1,6 @@
 package com.example.ndelivery.ui.components
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -71,10 +72,12 @@ fun CardProductItem(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = product.name
+                    text = product.name,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
-                    text = product.price.toBrazilianCurrency()
+                    text = product.price.toBrazilianCurrency(),
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
@@ -100,7 +103,7 @@ fun CardProductItem(
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun CardProductItemPreview() {
     NDeliveryTheme {
