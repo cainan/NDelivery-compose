@@ -17,12 +17,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.Dp
@@ -42,9 +41,10 @@ val TAG = "CardProductItem"
 fun CardProductItem(
     product: Product,
     modifier: Modifier = Modifier,
-    elevation: Dp = 4.dp
+    elevation: Dp = 4.dp,
+    expanded: Boolean = false
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(expanded) }
     Card(
         onClick = {
             expanded = !expanded
@@ -89,14 +89,6 @@ fun CardProductItem(
                         Modifier
                             .padding(16.dp),
                     )
-                } else {
-                    Text(
-                        text = product.description,
-                        Modifier
-                            .padding(16.dp),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
                 }
             }
         }
@@ -126,6 +118,7 @@ private fun CardProductItemWithDescriptionPreview() {
                     price = BigDecimal("25.00"),
                     description = LoremIpsum(20).values.first()
                 ),
+                expanded = true,
             )
         }
     }

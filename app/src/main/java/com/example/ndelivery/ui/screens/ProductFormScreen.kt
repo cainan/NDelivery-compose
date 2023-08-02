@@ -20,7 +20,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -57,11 +57,11 @@ class ProductFormScreenUiState(
 @Composable
 fun ProductFormScreen(onProductSave: (Product) -> Unit) {
 
-    var name by remember { mutableStateOf("") }
-    var price by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var formatter = remember { DecimalFormat("#.##") }
-    var url by remember { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf("") }
+    var price by rememberSaveable { mutableStateOf("") }
+    var description by rememberSaveable { mutableStateOf("") }
+    var formatter = rememberSaveable { DecimalFormat("#.##") }
+    var url by rememberSaveable { mutableStateOf("") }
 
     ProductFormScreen(
         state = ProductFormScreenUiState(

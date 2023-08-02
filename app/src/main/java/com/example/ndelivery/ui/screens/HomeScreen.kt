@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +51,7 @@ fun HomeScreen(products: List<Product>) {
         "Bebidas" to sampleDrinks
     )
 
-    var text by remember { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf("") }
 
     val searchedProducts = remember(text, products) {
         if (text.isNotBlank()) {

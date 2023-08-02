@@ -41,7 +41,8 @@ val sampleDrinks = listOf(
     Product(
         name = "Água",
         price = BigDecimal("2.99"),
-        image = "https://images.pexels.com/photos/327090/pexels-photo-327090.jpeg"
+        image = "https://images.pexels.com/photos/327090/pexels-photo-327090.jpeg",
+        description = LoremIpsum(20).values.first()
     )
 )
 
@@ -55,12 +56,14 @@ val sampleProducts: List<Product> = listOf(
     Product(
         name = "Pizza",
         price = BigDecimal("19.99"),
-        image = "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg"
+        image = "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg",
+        description = LoremIpsum(30).values.first()
     ),
     Product(
         name = "Batata frita",
         price = BigDecimal("7.99"),
-        image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg"
+        image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg",
+        description = LoremIpsum(30).values.first()
     ), *sampleDrinks.toTypedArray(), *sampleCandies.toTypedArray()
 )
 
