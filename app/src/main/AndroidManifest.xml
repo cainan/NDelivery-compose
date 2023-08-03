@@ -17,7 +17,7 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.NDelivery">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,6 @@
         <activity
             android:name=".ui.activities.ProductFormActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.NDelivery"
             android:windowSoftInputMode="adjustResize">
         </activity>
