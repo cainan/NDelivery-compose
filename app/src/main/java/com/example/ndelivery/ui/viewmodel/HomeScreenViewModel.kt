@@ -1,8 +1,5 @@
 package com.example.ndelivery.ui.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ndelivery.dao.ProductDao
@@ -10,6 +7,9 @@ import com.example.ndelivery.model.Product
 import com.example.ndelivery.sampledata.sampleCandies
 import com.example.ndelivery.sampledata.sampleDrinks
 import com.example.ndelivery.ui.state.HomeScreenUiState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
@@ -17,24 +17,33 @@ class HomeScreenViewModel : ViewModel() {
 
     private val dao = ProductDao()
 
-    var uiState: HomeScreenUiState by mutableStateOf(
-        HomeScreenUiState(
-            onSearchChange = {
-                uiState = uiState.copy(searchText = it, searchedProducts = searchedProducts(it))
-            },
-        )
+    private val _uiState: MutableStateFlow<HomeScreenUiState> = MutableStateFlow(
+        HomeScreenUiState()
     )
-        private set
+
+    val uiState = _uiState.asStateFlow()
 
     init {
+        _uiState.update { currentState ->
+            currentState.copy(
+                onSearchChange = {
+                    _uiState.value = uiState.value.copy(
+                        searchText = it,
+                        searchedProducts = searchedProducts(it)
+                    )
+                }
+            )
+        }
+
         viewModelScope.launch {
             dao.products().collect {
-                uiState = uiState.copy(
+                _uiState.value = _uiState.value.copy(
                     sections = mapOf(
                         "Todos os Produtos" to it,
                         "Doces" to sampleCandies,
                         "Bebidas" to sampleDrinks
-                    )
+                    ),
+                    searchedProducts = searchedProducts(_uiState.value.searchText)
                 )
             }
         }
