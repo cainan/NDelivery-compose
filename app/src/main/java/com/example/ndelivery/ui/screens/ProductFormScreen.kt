@@ -204,7 +204,14 @@ fun ProductFormScreen(
 fun ProductFormScreenPreview() {
     NDeliveryTheme {
         Surface() {
-            ProductFormScreen()
+            ProductFormScreen(
+                state = ProductFormScreenUiState(
+                    url = "url teste",
+                    name = "nome teste",
+                    price = "123",
+                    description = "descrição teste"
+                )
+            )
         }
     }
 }
