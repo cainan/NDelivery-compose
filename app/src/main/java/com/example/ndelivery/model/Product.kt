@@ -8,7 +8,7 @@ import java.math.BigDecimal
 @Entity
 data class Product(
     @PrimaryKey(autoGenerate = true) val uid: Long = 0L,
-    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "name") var name: String,
     @ColumnInfo val price: BigDecimal,
     @ColumnInfo val image: String? = null,
     @ColumnInfo val description: String? = null
